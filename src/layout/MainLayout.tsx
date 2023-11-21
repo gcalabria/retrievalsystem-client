@@ -1,7 +1,14 @@
 import { AppBar, Box, Button, Toolbar, Typography } from '@mui/material';
-import { Outlet, Link as RouterLink } from 'react-router-dom';
+import { Outlet, Link as RouterLink, useNavigate } from 'react-router-dom';
 
 function MainLayout() {
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    localStorage.removeItem('accessToken');
+    navigate('/login');
+  };
+
   return (
     <>
       <AppBar component="nav" position="static">
@@ -15,6 +22,9 @@ function MainLayout() {
             </Button>
             <Button component={RouterLink} to="results" color="inherit">
               Results
+            </Button>
+            <Button onClick={handleLogout} color="inherit">
+              Logout
             </Button>
           </Box>
         </Toolbar>
