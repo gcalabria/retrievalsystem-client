@@ -39,7 +39,7 @@ function LoginPage() {
       dispatch(setUser(user));
 
       localStorage.setItem('accessToken', tokens.access_token);
-      navigate('/');
+      navigate('/home');
     } catch (err) {
       console.error('TODO: implement error handler');
       console.error(err);
