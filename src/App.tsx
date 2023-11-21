@@ -5,6 +5,8 @@ import { PrivateOutlet } from './utils/PrivateOutlet';
 import HomePage from './pages/HomePage';
 import ResultsPage from './pages/ResultsPage';
 import MainLayout from './layout/MainLayout';
+import LandingPage from './pages/LandingPage';
+import RegistrationPage from './pages/RegistrationPage';
 
 function App() {
   return (
@@ -16,7 +18,9 @@ function App() {
       }}
     >
       <Routes>
+        <Route index element={<LandingPage />} />
         <Route path="/login" element={<LoginPage />} />
+        <Route path="/register" element={<RegistrationPage />} />
         <Route path="*" element={<PrivateOutlet />}>
           <Route element={<MainLayout />}>
             <Route path="home" element={<HomePage />} />
