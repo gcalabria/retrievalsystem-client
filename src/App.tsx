@@ -19,7 +19,7 @@ function App() {
         <Route path="/login" element={<LoginPage />} />
         <Route path="*" element={<PrivateOutlet />}>
           <Route element={<MainLayout />}>
-            <Route index element={<HomePage />} />
+            <Route path="home" element={<HomePage />} />
             <Route path="results" element={<ResultsPage />} />
           </Route>
         </Route>
