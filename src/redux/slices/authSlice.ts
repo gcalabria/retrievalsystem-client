@@ -27,10 +27,20 @@ const slice = createSlice({
     setUser: (state, { payload: user }: PayloadAction<User | null>) => {
       state.user = user;
     },
+    setRefreshToken: (
+      state,
+      { payload: refresh_token }: PayloadAction<string>,
+    ) => {
+      state.tokens.refresh_token = refresh_token;
+    },
+    resetTokens: (state) => {
+      state.tokens = defaultTokens;
+    },
   },
 });
 
-export const { setUser, setTokens } = slice.actions;
+export const { setUser, setTokens, resetTokens, setRefreshToken } =
+  slice.actions;
 
 export default slice.reducer;
 
