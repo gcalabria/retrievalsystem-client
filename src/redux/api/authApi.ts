@@ -36,10 +36,22 @@ export const authApi = baseApi.injectEndpoints({
         }
       },
     }),
-    logout: builder.mutation<IDeleteTokensResponse, void>({
+    signOut: builder.mutation<IDeleteTokensResponse, void>({
       query: () => ({
         url: '/tokens',
         method: 'DELETE',
+      }),
+      async onQueryStarted(_, { dispatch, queryFulfilled }) {
+        try {
+          await queryFulfilled;
+          dispatch(setUser(null));
+          dispatch(setTokens(defaultTokens));
+          localStorage.removeItem('accessToken');
+          localStorage.removeItem('refreshToken');
+        } catch (err) {
+          console.error(err);
+        }
+      },
       }),
 
     refresh: builder.mutation<IFetchRefreshTokenResponse, void>({
