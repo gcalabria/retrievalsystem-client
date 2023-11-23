@@ -1,12 +1,14 @@
 import { Box } from '@mui/material';
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, Navigate } from 'react-router-dom';
 import LoginPage from './pages/LoginPage';
 import HomePage from './pages/HomePage';
 import ResultsPage from './pages/ResultsPage';
 import MainLayout from './layout/MainLayout';
 import LandingPage from './pages/LandingPage';
 import RegistrationPage from './pages/RegistrationPage';
-import PersistLogin from './utils/PersistLogin';
+import PublicRoute from './utils/PublicRoute';
+import PrivateRoute from './utils/PrivateRoute';
+import UserProvider from './utils/UserProvider';
 
 function App() {
   return (
@@ -17,20 +19,42 @@ function App() {
         width: '100vw',
       }}
     >
-      <Routes>
-        <Route index element={<LandingPage />} />
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/register" element={<RegistrationPage />} />
+      <UserProvider>
+        <Routes>
+          <Route index element={<LandingPage />} />
+          <Route
+            path="/login"
+            element={
+              <PublicRoute>
+                <LoginPage />
+              </PublicRoute>
+            }
+          />
+          <Route
+            path="/register"
+            element={
+              <PublicRoute>
+                <RegistrationPage />
+              </PublicRoute>
+            }
+          />
 
-        {/* Protected Routes */}
-        <Route element={<PersistLogin />}>
-          <Route element={<MainLayout />}>
-            <Route path="home" element={<HomePage />} />
-            <Route path="results" element={<ResultsPage />} />
-          </Route>
-        </Route>
-        {/* End Protected Routes */}
-      </Routes>
+          <Route
+            path="*"
+            element={
+              <PrivateRoute>
+                <Routes>
+                  <Route element={<MainLayout />}>
+                    <Route path="home" element={<HomePage />} />
+                    <Route path="results" element={<ResultsPage />} />
+                    <Route path="*" element={<Navigate to="/" />} />
+                  </Route>
+                </Routes>
+              </PrivateRoute>
+            }
+          />
+        </Routes>
+      </UserProvider>
     </Box>
   );
 }
