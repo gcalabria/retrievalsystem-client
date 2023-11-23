@@ -7,7 +7,7 @@ import { useRefreshTokensMutation } from '../redux/api/authApi';
 import { useSelector } from 'react-redux';
 import { selectCurrentToken } from '../redux/slices/authSlice';
 
-const PersistLogin = () => {
+export default function PersistLogin() {
   const [persist] = usePersist();
   const token = useSelector(selectCurrentToken);
   const effectRan = useRef(false); // for react 18 strict mode
@@ -104,5 +104,4 @@ const PersistLogin = () => {
       {content}
     </Box>
   );
-};
-export default PersistLogin;
+}
