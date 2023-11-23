@@ -6,12 +6,20 @@ import { User } from '../api/userApi';
 
 type AuthState = {
   user: User | null;
-  tokens: Tokens | null;
+  tokens: Tokens;
+};
+
+export const defaultTokens: Tokens = {
+  access_token: '',
+  refresh_token: '',
 };
 
 const slice = createSlice({
   name: 'auth',
-  initialState: { user: null, tokens: null } as AuthState,
+  initialState: {
+    user: null,
+    tokens: defaultTokens,
+  } as AuthState,
   reducers: {
     setTokens: (state, { payload: tokens }: PayloadAction<Tokens>) => {
       state.tokens = tokens;
