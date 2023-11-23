@@ -1,12 +1,19 @@
-import { Box, Link, Paper, TextField, Typography } from '@mui/material';
+import {
+  Box,
+  Checkbox,
+  FormControlLabel,
+  Link,
+  Paper,
+  TextField,
+  Typography,
+} from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-import { useFetchTokensMutation, useFetchUserMutation } from '../api/authApi';
-import { setTokens, setUser } from '../store/slices/authSlice';
+import { useSignInMutation } from '../redux/api/authApi';
+import usePersist from '../hooks/usePersist';
 
 const LoginFormSchema = z.object({
   email: z.string().email('Wrong email format'),
@@ -18,8 +25,10 @@ type LoginFormData = z.infer<typeof LoginFormSchema>;
 function LoginPage() {
   const navigate = useNavigate();
   // const toast = useToast();
-  const dispatch = useDispatch();
+  const [persist, setPersist] = usePersist();
+  const [signIn, { isLoading }] = useSignInMutation();
   const {
+    reset,
     register,
     handleSubmit,
     formState: { errors },
@@ -27,29 +36,19 @@ function LoginPage() {
     resolver: zodResolver(LoginFormSchema),
   });
 
-  const [fetchTokens, { isLoading: loadingTokens }] = useFetchTokensMutation();
-  const [fetchUser, { isLoading: loadingUser }] = useFetchUserMutation();
-
   const onSubmit = async ({ email, password }: LoginFormData) => {
     try {
-      const tokens = await fetchTokens({ email, password }).unwrap();
-      dispatch(setTokens(tokens));
-
-      const user = await fetchUser().unwrap();
-      dispatch(setUser(user));
-
-      localStorage.setItem('accessToken', tokens.access_token);
+      await signIn({ email, password }).unwrap();
+      reset();
       navigate('/home');
     } catch (err) {
-      console.error('TODO: implement error handler');
+      console.error('TODO: handle error');
       console.error(err);
-      // toast({
-      //   status: 'error',
-      //   title: 'Error',
-      //   description: 'Oh no, there was an error!',
-      //   isClosable: true,
-      // });
     }
+  };
+
+  const handleToggle = () => {
+    setPersist((prev) => !prev);
   };
 
   return (
@@ -110,10 +109,15 @@ function LoginPage() {
             sx={{ width: '100%', mt: 2, height: 42 }}
             variant="contained"
             type="submit"
-            loading={loadingTokens || loadingUser}
+            loading={isLoading}
           >
             Login
           </LoadingButton>
+
+          <FormControlLabel
+            control={<Checkbox checked={persist} onChange={handleToggle} />}
+            label="Remember me?"
+          />
         </Box>
 
         <Box
