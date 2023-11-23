@@ -29,6 +29,9 @@ function LandingPage() {
         <Button variant="outlined" component={RouterLink} to="/register">
           Register
         </Button>
+        <Button variant="outlined" component={RouterLink} to="/home">
+          Home
+        </Button>
       </Box>
     </Box>
   );
