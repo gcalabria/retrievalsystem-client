@@ -2,7 +2,10 @@ import { LoadingButton } from '@mui/lab';
 import { useLazyFetchConfigsQuery } from '../redux/api/configsApi';
 import { Box } from '@mui/material';
 import { useRefreshTokensMutation } from '../redux/api/authApi';
-import { selectCurrentToken } from '../redux/slices/authSlice';
+import {
+  selectCurrentToken,
+  selectCurrentUser,
+} from '../redux/slices/authSlice';
 import { useSelector } from 'react-redux';
 
 function HomePage() {
@@ -12,12 +15,13 @@ function HomePage() {
   ] = useLazyFetchConfigsQuery();
 
   const [refresh] = useRefreshTokensMutation();
+  const token = useSelector(selectCurrentToken);
+  const user = useSelector(selectCurrentUser);
 
   const handleFetchConfigs = () => {
     fetchConfigs();
   };
 
-  const token = useSelector(selectCurrentToken);
   const handleRefreshTokens = () => {
     if (token) {
       refresh(token);
@@ -28,6 +32,8 @@ function HomePage() {
 
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
+      <Box>Welcome to your page, {user?.email}</Box>
+
       <LoadingButton onClick={handleFetchConfigs} loading={isLoading}>
         Fetch
       </LoadingButton>
