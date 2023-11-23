@@ -1,6 +1,9 @@
 import { LoadingButton } from '@mui/lab';
 import { useLazyFetchConfigsQuery } from '../redux/api/configsApi';
 import { Box } from '@mui/material';
+import { useRefreshTokensMutation } from '../redux/api/authApi';
+import { selectCurrentToken } from '../redux/slices/authSlice';
+import { useSelector } from 'react-redux';
 
 function HomePage() {
   const [
@@ -8,8 +11,19 @@ function HomePage() {
     { data: configs, isFetching, isLoading, isError, isSuccess },
   ] = useLazyFetchConfigsQuery();
 
+  const [refresh] = useRefreshTokensMutation();
+
   const handleFetchConfigs = () => {
     fetchConfigs();
+  };
+
+  const token = useSelector(selectCurrentToken);
+  const handleRefreshTokens = () => {
+    if (token) {
+      refresh(token);
+    } else {
+      console.error('tODO: implement error handling -> no token');
+    }
   };
 
   return (
@@ -34,6 +48,8 @@ function HomePage() {
           </p>
         </Box>
       )}
+
+      <LoadingButton onClick={handleRefreshTokens}>RefreshTokens</LoadingButton>
     </Box>
   );
 }
