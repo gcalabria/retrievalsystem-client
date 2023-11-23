@@ -14,6 +14,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import { useSignInMutation } from '../redux/api/authApi';
 import usePersist from '../hooks/usePersist';
+import { useLazyFetchUserQuery } from '../redux/api/userApi';
 
 const LoginFormSchema = z.object({
   email: z.string().email('Wrong email format'),
@@ -35,10 +36,12 @@ function LoginPage() {
   } = useForm<LoginFormData>({
     resolver: zodResolver(LoginFormSchema),
   });
+  const [fetchUser, { isLoading: isUserLoading }] = useLazyFetchUserQuery();
 
   const onSubmit = async ({ email, password }: LoginFormData) => {
     try {
-      await signIn({ email, password }).unwrap();
+      await signIn({ email, password });
+      await fetchUser();
       reset();
       navigate('/home');
     } catch (err) {
@@ -109,7 +112,7 @@ function LoginPage() {
             sx={{ width: '100%', mt: 2, height: 42 }}
             variant="contained"
             type="submit"
-            loading={isLoading}
+            loading={isLoading || isUserLoading}
           >
             Login
           </LoadingButton>
