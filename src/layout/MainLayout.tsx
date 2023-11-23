@@ -20,7 +20,7 @@ function MainLayout() {
             RETRIEVALSYSTEM
           </Typography>
           <Box>
-            <Button component={RouterLink} to="/" color="inherit">
+            <Button component={RouterLink} to="/home" color="inherit">
               Home
             </Button>
             <Button component={RouterLink} to="results" color="inherit">
