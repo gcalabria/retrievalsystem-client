@@ -8,11 +8,9 @@ const baseQuery = fetchBaseQuery({
     const accessToken = localStorage.getItem('accessToken');
 
     if (accessToken && endpoint !== 'fetchTokens') {
-      console.log('using accessToken');
       headers.set('Authorization', `Bearer ${accessToken}`);
-    } else {
-      console.log('using basic auth');
     }
+
     return headers;
   },
 });
