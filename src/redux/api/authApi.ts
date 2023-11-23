@@ -1,14 +1,8 @@
-import {
-  defaultTokens,
-  setRefreshToken,
-  setTokens,
-  setUser,
-} from '../slices/authSlice';
+import { setToken, setUser } from '../slices/authSlice';
 import { baseApi } from './api';
 
-export interface Tokens {
+export interface IFetchTokensResponse {
   access_token: string;
-  refresh_token: string;
 }
 
 export interface IFetchTokensRequest {
@@ -21,26 +15,24 @@ export interface IDeleteTokensResponse {
   status: string;
 }
 
-export interface IFetchRefreshTokenResponse {
-  refresh_token: string;
-}
-
 export const authApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
-    signIn: builder.mutation<Tokens, IFetchTokensRequest>({
+    signIn: builder.mutation<IFetchTokensResponse, IFetchTokensRequest>({
       query: ({ email, password }) => ({
         url: '/tokens',
         method: 'POST',
+        credentials: 'include',
         headers: {
           Authorization: `Basic ${btoa(`${email}:${password}`)}`,
         },
       }),
       async onQueryStarted(_, { dispatch, queryFulfilled }) {
         try {
-          const { data } = await queryFulfilled;
-          dispatch(setTokens(data));
-          localStorage.setItem('accessToken', data.access_token);
-          localStorage.setItem('refreshToken', data.refresh_token);
+          const {
+            data: { access_token },
+          } = await queryFulfilled;
+          dispatch(setToken(access_token));
+          localStorage.setItem('accessToken', access_token);
         } catch (err) {
           console.error(err);
         }
@@ -50,31 +42,40 @@ export const authApi = baseApi.injectEndpoints({
       query: () => ({
         url: '/tokens',
         method: 'DELETE',
+        credentials: 'include',
       }),
       async onQueryStarted(_, { dispatch, queryFulfilled }) {
         try {
           await queryFulfilled;
           dispatch(setUser(null));
-          dispatch(setTokens(defaultTokens));
+          dispatch(setToken(''));
           localStorage.removeItem('accessToken');
-          localStorage.removeItem('refreshToken');
         } catch (err) {
           console.error(err);
         }
       },
     }),
 
-    refresh: builder.mutation<IFetchRefreshTokenResponse, void>({
-      query: () => ({
+    refreshTokens: builder.mutation<IFetchTokensResponse, string>({
+      // TODO:  this should get a new access token
+      query: (token: string) => ({
         url: '/tokens',
         method: 'PUT',
+        credentials: 'include',
+        body: { access_token: token },
       }),
       async onQueryStarted(_, { dispatch, queryFulfilled }) {
         try {
-          const { data } = await queryFulfilled;
-          console.log(data);
-          const { refresh_token } = data;
-          dispatch(setRefreshToken(refresh_token));
+          const {
+            data: { access_token },
+          } = await queryFulfilled;
+          console.log(
+            `refreshing token: old = ${localStorage.getItem(
+              'accessToken',
+            )}, new = ${access_token}`,
+          );
+          dispatch(setToken(access_token));
+          localStorage.setItem('accessToken', access_token);
         } catch (err) {
           console.log(err);
         }
@@ -83,5 +84,8 @@ export const authApi = baseApi.injectEndpoints({
   }),
 });
 
-export const { useSignInMutation, useSignOutMutation, useRefreshMutation } =
-  authApi;
+export const {
+  useSignInMutation,
+  useSignOutMutation,
+  useRefreshTokensMutation,
+} = authApi;

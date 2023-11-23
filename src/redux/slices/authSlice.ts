@@ -1,48 +1,35 @@
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
-import { Tokens } from '../api/authApi';
 import { RootState } from '../store';
 import { User } from '../api/userApi';
 
 type AuthState = {
   user: User | null;
-  tokens: Tokens;
-};
-
-export const defaultTokens: Tokens = {
-  access_token: '',
-  refresh_token: '',
+  token: string | null;
 };
 
 const slice = createSlice({
   name: 'auth',
   initialState: {
     user: null,
-    tokens: defaultTokens,
+    token: null,
   } as AuthState,
   reducers: {
-    setTokens: (state, { payload: tokens }: PayloadAction<Tokens>) => {
-      state.tokens = tokens;
+    setToken: (state, { payload: tokens }: PayloadAction<string>) => {
+      state.token = tokens;
     },
     setUser: (state, { payload: user }: PayloadAction<User | null>) => {
       state.user = user;
     },
-    setRefreshToken: (
-      state,
-      { payload: refresh_token }: PayloadAction<string>,
-    ) => {
-      state.tokens.refresh_token = refresh_token;
-    },
     resetTokens: (state) => {
-      state.tokens = defaultTokens;
+      state.token = null;
     },
   },
 });
 
-export const { setUser, setTokens, resetTokens, setRefreshToken } =
-  slice.actions;
+export const { setUser, setToken, resetTokens } = slice.actions;
 
 export default slice.reducer;
 
 export const selectCurrentUser = (state: RootState) => state.auth.user;
-export const selectCurrentTokens = (state: RootState) => state.auth.tokens;
+export const selectCurrentToken = (state: RootState) => state.auth.token;
