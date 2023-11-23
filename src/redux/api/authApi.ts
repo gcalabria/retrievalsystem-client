@@ -1,6 +1,10 @@
-import { setUser } from '../slices/authSlice';
+import {
+  defaultTokens,
+  setRefreshToken,
+  setTokens,
+  setUser,
+} from '../slices/authSlice';
 import { baseApi } from './api';
-import { userApi } from './userApi';
 
 export interface Tokens {
   access_token: string;
@@ -17,9 +21,13 @@ export interface IDeleteTokensResponse {
   status: string;
 }
 
+export interface IFetchRefreshTokenResponse {
+  refresh_token: string;
+}
+
 export const authApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
-    login: builder.mutation<Tokens, IFetchTokensRequest>({
+    signIn: builder.mutation<Tokens, IFetchTokensRequest>({
       query: ({ email, password }) => ({
         url: '/tokens',
         method: 'POST',
@@ -29,10 +37,12 @@ export const authApi = baseApi.injectEndpoints({
       }),
       async onQueryStarted(_, { dispatch, queryFulfilled }) {
         try {
-          await queryFulfilled;
-          await dispatch(userApi.endpoints.fetchUser.initiate());
-        } catch (error) {
-          console.log(error);
+          const { data } = await queryFulfilled;
+          dispatch(setTokens(data));
+          localStorage.setItem('accessToken', data.access_token);
+          localStorage.setItem('refreshToken', data.refresh_token);
+        } catch (err) {
+          console.error(err);
         }
       },
     }),
@@ -52,7 +62,7 @@ export const authApi = baseApi.injectEndpoints({
           console.error(err);
         }
       },
-      }),
+    }),
 
     refresh: builder.mutation<IFetchRefreshTokenResponse, void>({
       query: () => ({
@@ -73,4 +83,5 @@ export const authApi = baseApi.injectEndpoints({
   }),
 });
 
-export const { useLoginMutation } = authApi;
+export const { useSignInMutation, useSignOutMutation, useRefreshMutation } =
+  authApi;
