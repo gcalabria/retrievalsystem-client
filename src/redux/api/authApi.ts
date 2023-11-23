@@ -69,11 +69,6 @@ export const authApi = baseApi.injectEndpoints({
           const {
             data: { access_token },
           } = await queryFulfilled;
-          console.log(
-            `refreshing token: old = ${localStorage.getItem(
-              'accessToken',
-            )}, new = ${access_token}`,
-          );
           dispatch(setToken(access_token));
           localStorage.setItem('accessToken', access_token);
         } catch (err) {
