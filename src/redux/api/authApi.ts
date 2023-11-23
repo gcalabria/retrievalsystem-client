@@ -41,8 +41,21 @@ export const authApi = baseApi.injectEndpoints({
         url: '/tokens',
         method: 'DELETE',
       }),
-      async onQueryStarted() {
-        setUser(null);
+
+    refresh: builder.mutation<IFetchRefreshTokenResponse, void>({
+      query: () => ({
+        url: '/tokens',
+        method: 'PUT',
+      }),
+      async onQueryStarted(_, { dispatch, queryFulfilled }) {
+        try {
+          const { data } = await queryFulfilled;
+          console.log(data);
+          const { refresh_token } = data;
+          dispatch(setRefreshToken(refresh_token));
+        } catch (err) {
+          console.log(err);
+        }
       },
     }),
   }),
