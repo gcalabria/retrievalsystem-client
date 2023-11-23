@@ -1,12 +1,15 @@
 import { AppBar, Box, Button, Toolbar, Typography } from '@mui/material';
 import { Outlet, Link as RouterLink, useNavigate } from 'react-router-dom';
+import { useSignOutMutation } from '../redux/api/authApi';
+import { LoadingButton } from '@mui/lab';
 
 function MainLayout() {
   const navigate = useNavigate();
+  const [signOut, { isLoading }] = useSignOutMutation();
 
-  const handleLogout = () => {
-    localStorage.removeItem('accessToken');
-    navigate('/login');
+  const handleLogout = async () => {
+    signOut();
+    navigate('/');
   };
 
   return (
@@ -23,9 +26,13 @@ function MainLayout() {
             <Button component={RouterLink} to="results" color="inherit">
               Results
             </Button>
-            <Button onClick={handleLogout} color="inherit">
+            <LoadingButton
+              onClick={handleLogout}
+              loading={isLoading}
+              color="inherit"
+            >
               Logout
-            </Button>
+            </LoadingButton>
           </Box>
         </Toolbar>
       </AppBar>
