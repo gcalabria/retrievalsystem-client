@@ -7,10 +7,15 @@ import SearchForm from './SearchForm';
 
 function SearchPage() {
   const theme = useTheme();
-  const logoTheme = theme.palette.mode === 'light' ? 'dark-logo' : 'light-logo';
+  const logoTheme =
+    theme.palette.mode === 'light' ? 'black-logo' : 'white-logo';
+
+  console.log(theme.palette.mode);
 
   return (
-    <Box sx={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
+    <Box
+      sx={{ display: 'flex', flexDirection: 'column', gap: 4, minWidth: '60%' }}
+    >
       <Stack
         direction="row"
         sx={{
