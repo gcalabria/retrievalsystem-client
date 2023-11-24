@@ -3,6 +3,7 @@
 import { Box, Stack, Typography } from '@mui/material';
 import SelmaLogo from '../../assets/SELMA-Logo_code.svg?react';
 import { useTheme } from '@mui/material/styles';
+import SearchForm from './SearchForm';
 
 function SearchPage() {
   const theme = useTheme();
@@ -30,7 +31,7 @@ function SearchPage() {
         </Typography>
       </Stack>
 
-      {/* <SearchForm /> */}
+      <SearchForm />
     </Box>
   );
 }
