@@ -26,6 +26,9 @@ function MainLayout() {
             <Button component={RouterLink} to="results" color="inherit">
               Results
             </Button>
+            <Button component={RouterLink} to="search" color="inherit">
+              Search
+            </Button>
             <LoadingButton
               onClick={handleLogout}
               loading={isLoading}
