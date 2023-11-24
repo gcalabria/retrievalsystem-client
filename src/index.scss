@@ -23,3 +23,34 @@ body {
   max-width: 160px;
   filter: invert(100%) sepia(100%) saturate(0%) hue-rotate(17deg) brightness(104%) contrast(104%);
 }
+
+.searchbar-query-input {
+  flex-grow: 5;
+  .MuiInputBase-root {
+    padding-right: 8px;
+  }
+  fieldset {
+    border-radius: 0 4px 4px 0;
+    margin-left: -1px;
+    background-color: blue;
+  }
+  label {
+    color: #ff00ff;
+    background-color: brown;
+  }
+
+}
+
+#test-div {
+  background-color: brown;
+  div {
+    background-color: blue;
+  }
+  p {
+    background-color: green;
+  }
+  .p-in-test {
+    background-color: red;
+    color:#ff00ff
+  }
+}
