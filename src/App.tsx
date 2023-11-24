@@ -9,6 +9,7 @@ import RegistrationPage from './pages/RegistrationPage';
 import PublicRoute from './utils/PublicRoute';
 import PrivateRoute from './utils/PrivateRoute';
 import UserProvider from './utils/UserProvider';
+import SearchPage from './pages/SearchPage/SearchPage';
 
 function App() {
   return (
@@ -46,6 +47,7 @@ function App() {
                 <Routes>
                   <Route element={<MainLayout />}>
                     <Route path="home" element={<HomePage />} />
+                    <Route path="search" element={<SearchPage />} />
                     <Route path="results" element={<ResultsPage />} />
                     <Route path="*" element={<Navigate to="/" />} />
                   </Route>
