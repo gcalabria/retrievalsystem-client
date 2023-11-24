@@ -1,10 +1,10 @@
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from '../store';
-import { User } from '../api/userApi';
+import { IUser } from '../api/userApi';
 
 type AuthState = {
-  user: User | null;
+  user: IUser | null;
   token: string | null;
 };
 
@@ -18,7 +18,7 @@ const slice = createSlice({
     setToken: (state, { payload: tokens }: PayloadAction<string>) => {
       state.token = tokens;
     },
-    setUser: (state, { payload: user }: PayloadAction<User | null>) => {
+    setUser: (state, { payload: user }: PayloadAction<IUser | null>) => {
       state.user = user;
     },
     resetTokens: (state) => {

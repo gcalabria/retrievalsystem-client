@@ -1,15 +1,20 @@
 import { setUser } from '../slices/authSlice';
 import { baseApi } from './api';
 
-export interface User {
+export interface IUser {
   id: number;
   email: string;
   roles: string[];
 }
 
+export interface IRegisterUserRequest {
+  email: string;
+  password: string;
+}
+
 export const userApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
-    fetchUser: builder.query<User, void>({
+    fetchUser: builder.query<IUser, void>({
       query: () => ({
         url: '/me',
         method: 'GET',
@@ -23,7 +28,18 @@ export const userApi = baseApi.injectEndpoints({
         }
       },
     }),
+    registerUser: builder.mutation<IUser, IRegisterUserRequest>({
+      query: (data) => ({
+        url: '/users',
+        method: 'POST',
+        body: data,
+      }),
+    }),
   }),
 });
 
-export const { useFetchUserQuery, useLazyFetchUserQuery } = userApi;
+export const {
+  useFetchUserQuery,
+  useLazyFetchUserQuery,
+  useRegisterUserMutation,
+} = userApi;

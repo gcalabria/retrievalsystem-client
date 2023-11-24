@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { createContext, useContext, useState, useEffect } from 'react';
-import { User, useLazyFetchUserQuery } from '../redux/api/userApi';
+import { IUser, useLazyFetchUserQuery } from '../redux/api/userApi';
 
-type UsercontextType = { user: User } | null;
+type UsercontextType = { user: IUser } | null;
 
 const UserContext = createContext<UsercontextType>(null);
 
