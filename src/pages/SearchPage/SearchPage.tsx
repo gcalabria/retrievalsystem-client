@@ -10,11 +10,15 @@ function SearchPage() {
   const logoTheme =
     theme.palette.mode === 'light' ? 'black-logo' : 'white-logo';
 
-  console.log(theme.palette.mode);
-
   return (
     <Box
-      sx={{ display: 'flex', flexDirection: 'column', gap: 4, minWidth: '60%' }}
+      sx={{
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        gap: 4,
+        minWidth: '60%',
+      }}
     >
       <Stack
         direction="row"
