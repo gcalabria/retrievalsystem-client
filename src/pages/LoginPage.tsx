@@ -62,7 +62,6 @@ function LoginPage() {
         alignItems: 'center',
         justifyContent: 'center',
         height: '100%',
-        bgcolor: 'background.default',
       }}
     >
       <Paper

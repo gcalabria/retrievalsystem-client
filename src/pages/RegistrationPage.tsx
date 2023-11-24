@@ -50,7 +50,6 @@ export default function RegistrationPage() {
         alignItems: 'center',
         justifyContent: 'center',
         height: '100%',
-        bgcolor: 'background.default',
       }}
     >
       <Paper
