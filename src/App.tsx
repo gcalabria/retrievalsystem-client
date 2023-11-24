@@ -1,15 +1,15 @@
 import { Box } from '@mui/material';
 import { Routes, Route, Navigate } from 'react-router-dom';
-import LoginPage from './pages/LoginPage';
-import HomePage from './pages/HomePage';
-import ResultsPage from './pages/ResultsPage';
+import LoginPage from './features/auth/LoginPage';
+import HomePage from './features/HomePage';
+import ResultsPage from './features/search/ResultsPage';
 import MainLayout from './layout/MainLayout';
-import LandingPage from './pages/LandingPage';
-import RegistrationPage from './pages/RegistrationPage';
+import LandingPage from './features/LandingPage';
+import RegistrationPage from './features/auth/RegistrationPage';
 import PublicRoute from './utils/PublicRoute';
 import PrivateRoute from './utils/PrivateRoute';
 import UserProvider from './utils/UserProvider';
-import SearchPage from './pages/SearchPage/SearchPage';
+import SearchPage from './features/search/SearchPage';
 
 function App() {
   return (

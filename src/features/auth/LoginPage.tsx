@@ -1,45 +1,57 @@
-import { Box, Link, Paper, TextField, Typography } from '@mui/material';
-import { Link as RouterLink, useNavigate } from 'react-router-dom';
+import {
+  Box,
+  Checkbox,
+  FormControlLabel,
+  Link,
+  Paper,
+  TextField,
+  Typography,
+} from '@mui/material';
+import { LoadingButton } from '@mui/lab';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useRegisterUserMutation } from '../redux/api/userApi';
-import { LoadingButton } from '@mui/lab';
+import { Link as RouterLink, useNavigate } from 'react-router-dom';
+import { useSignInMutation } from '../../redux/api/authApi';
+import usePersist from '../../hooks/usePersist';
+import { useLazyFetchUserQuery } from '../../redux/api/userApi';
 
-const RegisterFormSchema = z
-  .object({
-    email: z.string().email('Wrong email format'),
-    password: z.string().min(6, 'Password mustt have at least 6 characters'),
-    password2: z.string().min(6, 'Password mustt have at least 6 characters'),
-  })
-  .refine((data) => data.password === data.password2, {
-    path: ['password2'],
-    message: "Password don't match",
-  });
+const LoginFormSchema = z.object({
+  email: z.string().email('Wrong email format'),
+  password: z.string().min(6, 'Password mustt have at least 6 characters'),
+});
 
-type RegistrationFormData = z.infer<typeof RegisterFormSchema>;
+type LoginFormData = z.infer<typeof LoginFormSchema>;
 
-export default function RegistrationPage() {
+function LoginPage() {
   const navigate = useNavigate();
-  const [registerUser, { isLoading }] = useRegisterUserMutation();
+  // const toast = useToast();
+  const [persist, setPersist] = usePersist();
+  const [signIn, { isLoading }] = useSignInMutation();
   const {
+    reset,
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<RegistrationFormData>({
-    resolver: zodResolver(RegisterFormSchema),
+  } = useForm<LoginFormData>({
+    resolver: zodResolver(LoginFormSchema),
   });
+  const [fetchUser, { isLoading: isUserLoading }] = useLazyFetchUserQuery();
 
-  const submitRegister = async (data: RegistrationFormData) => {
+  const onSubmit = async ({ email, password }: LoginFormData) => {
     try {
-      await registerUser({
-        email: data.email,
-        password: data.password,
-      }).unwrap();
-      navigate('/login');
+      await signIn({ email, password });
+      await fetchUser();
+      reset();
+      navigate('/home');
     } catch (err) {
+      console.error('TODO: handle error');
       console.error(err);
     }
+  };
+
+  const handleToggle = () => {
+    setPersist((prev) => !prev);
   };
 
   return (
@@ -63,11 +75,11 @@ export default function RegistrationPage() {
         }}
         elevation={3}
       >
-        <Typography sx={{ pb: 4 }} variant="h4" component="h4">
-          Register
+        <Typography variant="h4" component="h4">
+          Login
         </Typography>
         <Box
-          onSubmit={handleSubmit(submitRegister)}
+          onSubmit={handleSubmit(onSubmit)}
           component="form"
           sx={{
             display: 'flex',
@@ -95,23 +107,19 @@ export default function RegistrationPage() {
             helperText={errors.password ? errors.password.message : ' '}
             sx={{ width: '100%' }}
           />
-          <TextField
-            {...register('password2')}
-            label="Confirm password"
-            variant="filled"
-            type="password"
-            error={!!errors.password2}
-            helperText={errors.password2 ? errors.password2.message : ' '}
-            sx={{ pb: 4, width: '100%' }}
-          />
           <LoadingButton
             sx={{ width: '100%', mt: 2, height: 42 }}
             variant="contained"
             type="submit"
-            loading={isLoading}
+            loading={isLoading || isUserLoading}
           >
-            Register
+            Login
           </LoadingButton>
+
+          <FormControlLabel
+            control={<Checkbox checked={persist} onChange={handleToggle} />}
+            label="Remember me?"
+          />
         </Box>
 
         <Box
@@ -125,9 +133,9 @@ export default function RegistrationPage() {
           }}
         >
           <Typography>
-            Are you already an user? Click{' '}
-            <Link component={RouterLink} to="/login">
-              here to log in.
+            You do not have an account? Click{' '}
+            <Link component={RouterLink} to="/register">
+              here to register.
             </Link>
           </Typography>
         </Box>
@@ -135,3 +143,5 @@ export default function RegistrationPage() {
     </Box>
   );
 }
+
+export default LoginPage;
