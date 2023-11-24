@@ -12,7 +12,7 @@ import {
 import SearchIcon from '@mui/icons-material/Search';
 import TuneIcon from '@mui/icons-material/Tune';
 
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useFetchFolderStructureQuery } from '../../redux/api/folderStructureApi';
 import { selectCurrentQuery, setQuery } from '../../redux/slices/querySlice';
 import { useDispatch, useSelector } from 'react-redux';
@@ -29,10 +29,10 @@ export default function SearchBar() {
     isLoading,
     isSuccess,
   } = useFetchFolderStructureQuery();
-  const [databases, setDatabases] = React.useState<string[]>([]);
-  const [models, setModels] = React.useState<string[]>([]);
-  const [indexes, setIndexes] = React.useState<string[]>([]);
-  const [languages] = React.useState<string[]>([]);
+  const [databases, setDatabases] = useState<string[]>([]);
+  const [models, setModels] = useState<string[]>([]);
+  const [indexes, setIndexes] = useState<string[]>([]);
+  const [languages] = useState<string[]>([]);
 
   useEffect(() => {
     setDatabases(folderStructure ? Object.keys(folderStructure) : []);
