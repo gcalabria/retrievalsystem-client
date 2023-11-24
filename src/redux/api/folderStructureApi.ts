@@ -2,20 +2,34 @@ import { baseApi } from './api';
 
 // TODO: make naming consistent (IUser vs. User)
 
+/**
+ * The data in the server is usually organized as follows:
+ *
+ * retrievalsystem
+ * └── data
+ *     ├── database_1
+ *     │   ├── model_1
+ *     │   |   └── index_1
+ *     │   ├── model_2
+ *     │   │   ├── index_1
+ *     │   │   └── index_2
+ *     │   │
+ *     │   └── model_3
+ *     │       └── ...
+ *     └── database_2
+ *         └── model_1
+ *             └── index_1
+ *
+ * IFolderStructure is a representation of the above structure.
+ * For more information, access:
+ * https://gitlab.hrz.tu-chemnitz.de/ddsg/pol/retrievalsystem/-/wikis/How-to-add-new-data
+ */
+
 export interface IFolderStructure {
-  db_path: string;
-  db_table_name: string;
-  db_content_attribute_name: string;
-  index_path: string;
-  allowed_search_modes: {
-    default: boolean;
-    separated: boolean;
-    url: boolean;
-    file: boolean;
+  [key: string]: {
+    [key: string]: string[];
   };
 }
-
-// TODO: make naming consistent (data-structre vs. folder-structure)
 
 export const folderStructureApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
