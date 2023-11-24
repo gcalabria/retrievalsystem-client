@@ -1,6 +1,7 @@
 import { configureStore, ConfigureStoreOptions } from '@reduxjs/toolkit';
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
 import authReducer from './slices/authSlice';
+import queryReducer from './slices/querySlice';
 import { baseApi } from './api/api';
 
 export const createStore = (
@@ -8,8 +9,9 @@ export const createStore = (
 ) =>
   configureStore({
     reducer: {
-      [baseApi.reducerPath]: baseApi.reducer,
       auth: authReducer,
+      query: queryReducer,
+      [baseApi.reducerPath]: baseApi.reducer,
     },
     middleware: (getDefaultMiddleware) =>
       getDefaultMiddleware().concat(baseApi.middleware),
