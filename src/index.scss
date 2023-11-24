@@ -25,32 +25,20 @@ body {
 }
 
 .searchbar-query-input {
-  flex-grow: 5;
+  flex-grow: 2;
   .MuiInputBase-root {
     padding-right: 8px;
   }
   fieldset {
     border-radius: 0 4px 4px 0;
     margin-left: -1px;
-    background-color: blue;
   }
-  label {
-    color: #ff00ff;
-    background-color: brown;
-  }
-
 }
 
-#test-div {
-  background-color: brown;
-  div {
-    background-color: blue;
-  }
-  p {
-    background-color: green;
-  }
-  .p-in-test {
-    background-color: red;
-    color:#ff00ff
+.searchbar-model-select {
+  flex-grow: 1;
+  min-width: 192px;
+  fieldset {
+    border-radius: 4px 0 0 4px;
   }
 }
