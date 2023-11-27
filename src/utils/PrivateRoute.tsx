@@ -1,6 +1,6 @@
 import { useLocation, Navigate } from 'react-router-dom';
 import { userApi } from '../redux/api/userApi';
-import { Box, CircularProgress } from '@mui/material';
+import FullScreenLoader from '../layout/FullScreenLoader';
 
 export default function PrivateRoute({
   children,
@@ -24,18 +24,7 @@ export default function PrivateRoute({
   });
 
   if (loading) {
-    return (
-      <Box
-        sx={{
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          height: '100%',
-        }}
-      >
-        <CircularProgress />
-      </Box>
-    );
+    return <FullScreenLoader />;
   }
 
   if (user) {

@@ -1,6 +1,6 @@
 import React from 'react';
 import { userApi } from '../redux/api/userApi';
-// import { CircularProgress } from '@mui/material';
+import FullScreenLoader from '../layout/FullScreenLoader';
 
 type IAuthMiddleware = {
   children: React.ReactElement;
@@ -14,7 +14,7 @@ const AuthMiddleware: React.FC<IAuthMiddleware> = ({ children }) => {
   });
 
   if (isLoading) {
-    return <div>Middleware is fetching data</div>;
+    return <FullScreenLoader />;
   }
 
   return children;
