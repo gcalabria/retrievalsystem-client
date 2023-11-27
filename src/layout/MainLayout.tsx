@@ -35,11 +35,7 @@ function MainLayout() {
             <Button component={RouterLink} to="search">
               Search
             </Button>
-            <LoadingButton
-              onClick={handleLogout}
-              loading={isLoading}
-              color="inherit"
-            >
+            <LoadingButton onClick={handleLogout} loading={isLoading}>
               Logout
             </LoadingButton>
           </Box>
