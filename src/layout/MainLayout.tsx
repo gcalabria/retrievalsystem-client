@@ -3,6 +3,7 @@ import { Outlet, Link as RouterLink, useNavigate } from 'react-router-dom';
 import { useSignOutMutation } from '../redux/api/authApi';
 import { LoadingButton } from '@mui/lab';
 import QueryTemplatesDialog from '../features/query_templates/QueryTemplatesDialog';
+import RepoIndexingDialog from '../features/repoIndexing/RepoIndexingDialog';
 
 function MainLayout() {
   const navigate = useNavigate();
@@ -37,6 +38,7 @@ function MainLayout() {
             </Button>
           </Box>
           <QueryTemplatesDialog />
+          <RepoIndexingDialog />
           <Box sx={{ mx: 2 }}>
             <LoadingButton onClick={handleLogout} loading={isLoading}>
               Logout
