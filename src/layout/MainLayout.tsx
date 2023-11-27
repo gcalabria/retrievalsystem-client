@@ -43,6 +43,7 @@ function MainLayout() {
               Logout
             </LoadingButton>
           </Box>
+          <QueryTemplatesDialog />
         </Toolbar>
       </AppBar>
       <Box
