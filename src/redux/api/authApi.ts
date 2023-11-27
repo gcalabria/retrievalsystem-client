@@ -1,5 +1,6 @@
 import { setToken, setUser } from '../slices/authSlice';
 import { baseApi } from './api';
+import { userApi } from './userApi';
 
 export interface IFetchTokensResponse {
   access_token: string;
@@ -33,6 +34,8 @@ export const authApi = baseApi.injectEndpoints({
           } = await queryFulfilled;
           dispatch(setToken(access_token));
           localStorage.setItem('accessToken', access_token);
+
+          await dispatch(userApi.endpoints.fetchUser.initiate());
         } catch (err) {
           console.error(err);
         }
