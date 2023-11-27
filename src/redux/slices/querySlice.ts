@@ -3,7 +3,7 @@ import type { PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from '../store';
 import { folderStructureApi } from '../api/folderStructureApi';
 
-interface IQueryState {
+export interface IQueryState {
   database: string;
   model: string;
   index: string;
