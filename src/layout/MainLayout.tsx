@@ -25,7 +25,7 @@ function MainLayout() {
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             RETRIEVALSYSTEM
           </Typography>
-          <Box>
+          <Box sx={{ mx: 2 }}>
             <Button component={RouterLink} to="/home">
               Home
             </Button>
@@ -35,11 +35,13 @@ function MainLayout() {
             <Button component={RouterLink} to="search">
               Search
             </Button>
+          </Box>
+          <QueryTemplatesDialog />
+          <Box sx={{ mx: 2 }}>
             <LoadingButton onClick={handleLogout} loading={isLoading}>
               Logout
             </LoadingButton>
           </Box>
-          <QueryTemplatesDialog />
         </Toolbar>
       </AppBar>
       <Box
