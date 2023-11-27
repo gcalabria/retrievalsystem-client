@@ -2,6 +2,7 @@ import { AppBar, Box, Button, Toolbar, Typography } from '@mui/material';
 import { Outlet, Link as RouterLink, useNavigate } from 'react-router-dom';
 import { useSignOutMutation } from '../redux/api/authApi';
 import { LoadingButton } from '@mui/lab';
+import QueryTemplatesDialog from '../features/query_templates/QueryTemplatesDialog';
 
 function MainLayout() {
   const navigate = useNavigate();
@@ -14,19 +15,24 @@ function MainLayout() {
 
   return (
     <>
-      <AppBar component="nav" position="static">
+      <AppBar
+        component="nav"
+        position="static"
+        elevation={0}
+        sx={{ bgcolor: 'background.paper' }}
+      >
         <Toolbar>
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             RETRIEVALSYSTEM
           </Typography>
           <Box>
-            <Button component={RouterLink} to="/home" color="inherit">
+            <Button component={RouterLink} to="/home">
               Home
             </Button>
-            <Button component={RouterLink} to="results" color="inherit">
+            <Button component={RouterLink} to="results">
               Results
             </Button>
-            <Button component={RouterLink} to="search" color="inherit">
+            <Button component={RouterLink} to="search">
               Search
             </Button>
             <LoadingButton
