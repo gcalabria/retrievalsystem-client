@@ -69,6 +69,7 @@ export const queryTemplatesApi = baseApi.injectEndpoints({
         url: `/users/${userId}/query-templates?offset=${pagination.offset}`,
         method: 'GET',
       }),
+      providesTags: ['QueryTemplate'],
     }),
     deleteQueryTemplate: builder.mutation<IDeleteQueryTemplateResponse, number>(
       {
@@ -76,6 +77,7 @@ export const queryTemplatesApi = baseApi.injectEndpoints({
           url: `/query-templates/${id}`,
           method: 'DELETE',
         }),
+        invalidatesTags: ['QueryTemplate'],
       },
     ),
   }),
