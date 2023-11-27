@@ -2,6 +2,7 @@ import { configureStore, ConfigureStoreOptions } from '@reduxjs/toolkit';
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
 import authReducer from './slices/authSlice';
 import queryReducer from './slices/querySlice';
+import snackbarReducer from './slices/snackbarSlice';
 import { baseApi } from './api/api';
 
 export const createStore = (
@@ -11,6 +12,7 @@ export const createStore = (
     reducer: {
       auth: authReducer,
       query: queryReducer,
+      snackbar: snackbarReducer,
       [baseApi.reducerPath]: baseApi.reducer,
     },
     middleware: (getDefaultMiddleware) =>

@@ -10,6 +10,7 @@ import PublicRoute from './utils/PublicRoute';
 import PrivateRoute from './utils/PrivateRoute';
 import UserProvider from './utils/UserProvider';
 import SearchPage from './features/search/SearchPage';
+import AppSnackbar from './utils/AppSnackbar';
 
 function App() {
   return (
@@ -56,6 +57,7 @@ function App() {
             }
           />
         </Routes>
+        <AppSnackbar />
       </UserProvider>
     </Box>
   );

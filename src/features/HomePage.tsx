@@ -6,7 +6,8 @@ import {
   selectCurrentToken,
   selectCurrentUser,
 } from '../redux/slices/authSlice';
-import { useSelector } from 'react-redux';
+import { showSnackbar } from '../redux/slices/snackbarSlice';
+import { useDispatch, useSelector } from 'react-redux';
 
 function HomePage() {
   const [
@@ -17,16 +18,24 @@ function HomePage() {
   const [refresh] = useRefreshTokensMutation();
   const token = useSelector(selectCurrentToken);
   const user = useSelector(selectCurrentUser);
+  const dispatch = useDispatch();
 
   const handleFetchConfigs = () => {
     fetchConfigs();
   };
 
-  const handleRefreshTokens = () => {
+  const handleRefreshTokens = async () => {
     if (token) {
-      refresh(token);
+      try {
+        await refresh(token);
+        dispatch(showSnackbar({ text: 'Tokens refreshed', type: 'success' }));
+      } catch (error) {
+        dispatch(
+          showSnackbar({ text: 'Error refreshing tokens', type: 'error' }),
+        );
+      }
     } else {
-      console.error('tODO: implement error handling -> no token');
+      dispatch(showSnackbar({ text: 'No token found', type: 'error' }));
     }
   };
 
