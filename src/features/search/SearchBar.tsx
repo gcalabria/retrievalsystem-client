@@ -82,149 +82,151 @@ export default function SearchBar() {
     return <CircularProgress />;
   } else if (isSuccess) {
     return (
-      <Stack
-        direction="row"
-        component="form"
-        role="search"
-        justifyContent="center"
-        width="100%"
-        onSubmit={handleSubmit}
-      >
-        <TextField
-          select
-          label="Model"
-          name="model"
-          value={query.model}
-          onChange={handleChange}
-          className="searchbar-model-select"
-          SelectProps={{
-            native: true,
-          }}
+      <>
+        <Stack
+          direction="row"
+          component="form"
+          role="search"
+          justifyContent="center"
+          width="100%"
+          onSubmit={handleSubmit}
         >
-          <option value="" />
-          {models.map((model) => (
-            <option value={model} key={model}>
-              {model}
-            </option>
-          ))}
-        </TextField>
+          <TextField
+            select
+            label="Model"
+            name="model"
+            value={query.model}
+            onChange={handleChange}
+            className="searchbar-model-select"
+            SelectProps={{
+              native: true,
+            }}
+          >
+            <option value="" />
+            {models.map((model) => (
+              <option value={model} key={model}>
+                {model}
+              </option>
+            ))}
+          </TextField>
 
-        <TextField
-          label="Query"
-          name="text"
-          value={query.text}
-          onChange={handleChange}
-          className="searchbar-query-input"
-          InputProps={{
-            startAdornment: (
-              <InputAdornment position="start">
-                <SearchIcon />
-              </InputAdornment>
-            ),
-            endAdornment: (
-              <InputAdornment position="end">
-                <IconButton
-                  onClick={() => setIsOpen(true)}
-                  aria-label="advanced search"
-                  size="large"
+          <TextField
+            label="Query"
+            name="text"
+            value={query.text}
+            onChange={handleChange}
+            className="searchbar-query-input"
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <SearchIcon />
+                </InputAdornment>
+              ),
+              endAdornment: (
+                <InputAdornment position="end">
+                  <IconButton
+                    onClick={() => setIsOpen(true)}
+                    aria-label="advanced search"
+                    size="large"
+                  >
+                    <TuneIcon />
+                  </IconButton>
+                </InputAdornment>
+              ),
+            }}
+            helperText="This is a Markdown text field. For code use ``` as delimiter and for Equations use $."
+          />
+
+          <Button
+            variant="contained"
+            sx={{ ml: 1, alignSelf: 'start', height: 56 }}
+            onClick={handleSubmit}
+          >
+            Go!
+          </Button>
+
+          <Dialog
+            maxWidth="sm"
+            fullWidth
+            open={isOpen}
+            onClose={() => setIsOpen(false)}
+          >
+            <DialogTitle>Advanced Search Settings</DialogTitle>
+            <DialogContent>
+              <Stack sx={{ pt: 2 }} spacing={2}>
+                <TextField
+                  label="Database"
+                  select
+                  name="database"
+                  value={query.database}
+                  onChange={handleChange}
+                  SelectProps={{
+                    native: true,
+                  }}
                 >
-                  <TuneIcon />
-                </IconButton>
-              </InputAdornment>
-            ),
-          }}
-        />
+                  <option value="" />
+                  {databases.map((db) => (
+                    <option key={db} value={db}>
+                      {db}
+                    </option>
+                  ))}
+                </TextField>
+                <TextField
+                  label="Model"
+                  name="model"
+                  value={query.model}
+                  onChange={handleChange}
+                  select
+                  SelectProps={{
+                    native: true,
+                  }}
+                >
+                  <option value="" />
+                  {models.map((model) => (
+                    <option key={model} value={model}>
+                      {model}
+                    </option>
+                  ))}
+                </TextField>
+                <TextField
+                  label="Index"
+                  name="index"
+                  value={query.index}
+                  onChange={handleChange}
+                  select
+                  SelectProps={{
+                    native: true,
+                  }}
+                >
+                  <option value="" />
+                  {indexes.map((idx) => (
+                    <option key={idx} value={idx}>
+                      {idx}
+                    </option>
+                  ))}
+                </TextField>
+                <TextField
+                  label="Language"
+                  disabled
+                  select
+                  SelectProps={{
+                    native: true,
+                  }}
+                >
+                  <option value="" />
+                  {languages.map((lang) => (
+                    <option key={lang} value={lang}>
+                      {lang}
+                    </option>
+                  ))}
+                </TextField>
 
-        <Button
-          variant="contained"
-          size="small"
-          sx={{ ml: 1 }}
-          onClick={handleSubmit}
-        >
-          Go!
-        </Button>
-
-        <Dialog
-          maxWidth="sm"
-          fullWidth
-          open={isOpen}
-          onClose={() => setIsOpen(false)}
-        >
-          <DialogTitle>Advanced Search Settings</DialogTitle>
-          <DialogContent>
-            <Stack sx={{ pt: 2 }} spacing={2}>
-              <TextField
-                label="Database"
-                select
-                name="database"
-                value={query.database}
-                onChange={handleChange}
-                SelectProps={{
-                  native: true,
-                }}
-              >
-                <option value="" />
-                {databases.map((db) => (
-                  <option key={db} value={db}>
-                    {db}
-                  </option>
-                ))}
-              </TextField>
-              <TextField
-                label="Model"
-                name="model"
-                value={query.model}
-                onChange={handleChange}
-                select
-                SelectProps={{
-                  native: true,
-                }}
-              >
-                <option value="" />
-                {models.map((model) => (
-                  <option key={model} value={model}>
-                    {model}
-                  </option>
-                ))}
-              </TextField>
-              <TextField
-                label="Index"
-                name="index"
-                value={query.index}
-                onChange={handleChange}
-                select
-                SelectProps={{
-                  native: true,
-                }}
-              >
-                <option value="" />
-                {indexes.map((idx) => (
-                  <option key={idx} value={idx}>
-                    {idx}
-                  </option>
-                ))}
-              </TextField>
-              <TextField
-                label="Language"
-                disabled
-                select
-                SelectProps={{
-                  native: true,
-                }}
-              >
-                <option value="" />
-                {languages.map((lang) => (
-                  <option key={lang} value={lang}>
-                    {lang}
-                  </option>
-                ))}
-              </TextField>
-
-              <Button onClick={handleApply}>Apply</Button>
-            </Stack>
-          </DialogContent>
-        </Dialog>
-      </Stack>
+                <Button onClick={handleApply}>Apply</Button>
+              </Stack>
+            </DialogContent>
+          </Dialog>
+        </Stack>
+      </>
     );
   }
 
