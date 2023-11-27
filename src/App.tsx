@@ -8,7 +8,6 @@ import LandingPage from './features/LandingPage';
 import RegistrationPage from './features/auth/RegistrationPage';
 import PublicRoute from './utils/PublicRoute';
 import PrivateRoute from './utils/PrivateRoute';
-import UserProvider from './utils/UserProvider';
 import SearchPage from './features/search/SearchPage';
 import AppSnackbar from './utils/AppSnackbar';
 
@@ -21,44 +20,42 @@ function App() {
         width: '100vw',
       }}
     >
-      <UserProvider>
-        <Routes>
-          <Route index element={<LandingPage />} />
-          <Route
-            path="/login"
-            element={
-              <PublicRoute>
-                <LoginPage />
-              </PublicRoute>
-            }
-          />
-          <Route
-            path="/register"
-            element={
-              <PublicRoute>
-                <RegistrationPage />
-              </PublicRoute>
-            }
-          />
+      <Routes>
+        <Route index element={<LandingPage />} />
+        <Route
+          path="/login"
+          element={
+            <PublicRoute>
+              <LoginPage />
+            </PublicRoute>
+          }
+        />
+        <Route
+          path="/register"
+          element={
+            <PublicRoute>
+              <RegistrationPage />
+            </PublicRoute>
+          }
+        />
 
-          <Route
-            path="*"
-            element={
-              <PrivateRoute>
-                <Routes>
-                  <Route element={<MainLayout />}>
-                    <Route path="home" element={<HomePage />} />
-                    <Route path="search" element={<SearchPage />} />
-                    <Route path="results" element={<ResultsPage />} />
-                    <Route path="*" element={<Navigate to="/" />} />
-                  </Route>
-                </Routes>
-              </PrivateRoute>
-            }
-          />
-        </Routes>
-        <AppSnackbar />
-      </UserProvider>
+        <Route
+          path="*"
+          element={
+            <PrivateRoute>
+              <Routes>
+                <Route element={<MainLayout />}>
+                  <Route path="home" element={<HomePage />} />
+                  <Route path="search" element={<SearchPage />} />
+                  <Route path="results" element={<ResultsPage />} />
+                  <Route path="*" element={<Navigate to="/" />} />
+                </Route>
+              </Routes>
+            </PrivateRoute>
+          }
+        />
+      </Routes>
+      <AppSnackbar />
     </Box>
   );
 }
