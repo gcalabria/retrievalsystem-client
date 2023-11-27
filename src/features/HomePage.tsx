@@ -32,7 +32,9 @@ function HomePage() {
 
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
-      <Box>Welcome to your page, {user?.email}</Box>
+      <Box>
+        Welcome to your page, {user?.email}. Your id is: {user?.id}
+      </Box>
 
       <LoadingButton onClick={handleFetchConfigs} loading={isLoading}>
         Fetch
