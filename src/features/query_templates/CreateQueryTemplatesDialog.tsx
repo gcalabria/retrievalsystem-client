@@ -21,11 +21,14 @@ import {
   TextField,
 } from '@mui/material';
 import { QueryTemplatesDialogProps } from './QueryTemplatesDialog';
+import { showSnackbar } from '../../redux/slices/snackbarSlice';
+import { useDispatch } from 'react-redux';
 
 export default function CreateQueryTemplatesDialog(
   props: QueryTemplatesDialogProps,
 ) {
   const { isOpen, onClose: handleClose } = props;
+  const dispatch = useDispatch();
   const [createQueryTemplate, { isLoading: creatingQueryTemplate }] =
     useCreateQueryTemplateMutation();
 
@@ -70,10 +73,18 @@ export default function CreateQueryTemplatesDialog(
       mode: form.mode,
     };
     try {
-      await createQueryTemplate(newQueryTemplate);
+      await createQueryTemplate(newQueryTemplate).unwrap();
       setForm(defaultQueryTemplate);
+      dispatch(
+        showSnackbar({ text: 'Query template created.', type: 'success' }),
+      );
     } catch (error) {
-      console.error(error);
+      dispatch(
+        showSnackbar({
+          text: 'Oops! Something went wrong when trying to create a query template.',
+          type: 'error',
+        }),
+      );
     }
 
     handleClose();
