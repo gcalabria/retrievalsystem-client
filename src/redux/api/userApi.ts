@@ -27,6 +27,7 @@ export const userApi = baseApi.injectEndpoints({
           console.error(err);
         }
       },
+      providesTags: ['User'],
     }),
     registerUser: builder.mutation<IUser, IRegisterUserRequest>({
       query: (data) => ({

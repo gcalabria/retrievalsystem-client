@@ -20,6 +20,7 @@ export const configsApi = baseApi.injectEndpoints({
         url: '/configs',
         method: 'GET',
       }),
+      providesTags: ['Configs'],
     }),
   }),
 });

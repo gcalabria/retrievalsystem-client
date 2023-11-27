@@ -38,6 +38,7 @@ export const folderStructureApi = baseApi.injectEndpoints({
         url: '/data-structure',
         method: 'GET',
       }),
+      providesTags: ['FolderStructure'],
     }),
   }),
 });
