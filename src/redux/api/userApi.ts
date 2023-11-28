@@ -1,3 +1,4 @@
+import { isFetchBaseQueryError } from '../../utils/errors';
 import { setUser } from '../slices/authSlice';
 import { baseApi } from './api';
 
@@ -24,7 +25,12 @@ export const userApi = baseApi.injectEndpoints({
           const { data: user } = await queryFulfilled;
           dispatch(setUser(user));
         } catch (err) {
-          console.error(err);
+          if (isFetchBaseQueryError(err)) {
+            // you can access all properties of `FetchBaseQueryError` here
+            if (err.status === 401) {
+              localStorage.removeItem('accessToken');
+            }
+          }
         }
       },
       providesTags: ['User'],
